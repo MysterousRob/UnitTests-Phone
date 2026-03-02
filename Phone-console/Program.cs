@@ -1,5 +1,6 @@
-﻿using System;
-using ClassLibrary;
+﻿using ClassLibrary;
+using System;
+using System.Numerics;
 
 class Program
 {

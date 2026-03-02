@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phone-Proj", "Phone-Proj.cs
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject1", "..\TestProject1\TestProject1.csproj", "{7A7A877A-2898-4171-97A2-D9E7C47C6C0E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Phone-console", "..\Phone-console\Phone-console.csproj", "{73F14382-9DD8-4C37-B134-89815B7E8E8B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{7A7A877A-2898-4171-97A2-D9E7C47C6C0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7A7A877A-2898-4171-97A2-D9E7C47C6C0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7A7A877A-2898-4171-97A2-D9E7C47C6C0E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73F14382-9DD8-4C37-B134-89815B7E8E8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73F14382-9DD8-4C37-B134-89815B7E8E8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73F14382-9DD8-4C37-B134-89815B7E8E8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73F14382-9DD8-4C37-B134-89815B7E8E8B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
