@@ -3,7 +3,7 @@ using ClassLibrary;
 namespace TestProjectPhone
 {
     [TestClass]
-    public class UnitTest1
+    public class PhoneTest
     {
         // Test for the constructor with valid data
         [TestMethod]
@@ -78,7 +78,7 @@ namespace TestProjectPhone
                 phone.AddContact($"Contact{i}", "111111111");
             }
 
-            // Act: 
+            // Act
             phone.AddContact("Overflow", "222222222");
         }
 
