@@ -1,112 +1,139 @@
 using ClassLibrary;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TestProjectPhone
 {
     [TestClass]
-    public class PhoneTest
+    public class PhoneTests
     {
-        // Test for the constructor with valid data
+        #region Constructor Tests
+
         [TestMethod]
-        public void Test_Konstruktor_Dane_poprawne()
+        public void Constructor_ValidData_ShouldCreatePhone()
         {
-            // Arrange
-            var wlasciciel = "Molenda";
-            var numerTelefonu = "123456789";
-
-            // Act
-            var phone = new Phone(wlasciciel, numerTelefonu);
-
-            // Assert
-            Assert.AreEqual(wlasciciel, phone.Owner);
-            Assert.AreEqual(numerTelefonu, phone.PhoneNumber);
-        }
-
-        // Test for the constructor with invalid owner (empty string)
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void Test_Konstruktor_Owner_Null_Or_Empty()
-        {
-            // Arrange
-            var wlasciciel = "";
-            var numerTelefonu = "123456789";
-
-            // Act
-            new Phone(wlasciciel, numerTelefonu); 
-        }
-
-        // Test for the constructor with an invalid phone number
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void Test_Konstruktor_PhoneNumber_Invalid()
-        {
-            // Arrange
-            var wlasciciel = "Molenda";
-            var numerTelefonu = "123"; 
-
-            // Act
-            new Phone(wlasciciel, numerTelefonu);
-        }
-
-        // Test adding a contact
-        [TestMethod]
-        public void Test_AddContact_Valid()
-        {
-            // Arrange
-            var phone = new Phone("Molenda", "123456789");
-            var contactName = "John";
-            var contactNumber = "987654321";
-
-            // Act
-            var result = phone.AddContact(contactName, contactNumber);
-
-            // Assert
-            Assert.IsTrue(result); 
-            Assert.AreEqual(1, phone.Count); 
-        }
-
-        // Test for adding a contact when the phonebook is full
-        [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
-        public void Test_AddContact_PhoneBook_Full()
-        {
-            // Arrange
             var phone = new Phone("Molenda", "123456789");
 
-        
-            for (int i = 0; i < 100; i++)
+            Assert.AreEqual("Molenda", phone.Owner);
+            Assert.AreEqual("123456789", phone.PhoneNumber);
+            Assert.AreEqual(0, phone.Count);
+        }
+
+        [TestMethod]
+        public void Constructor_OwnerEmpty_ShouldThrow()
+        {
+            Assert.ThrowsException<ArgumentException>(() =>
+                new Phone("", "123456789"));
+        }
+
+        [TestMethod]
+        public void Constructor_OwnerNull_ShouldThrow()
+        {
+            Assert.ThrowsException<ArgumentException>(() =>
+                new Phone(null, "123456789"));
+        }
+
+        [TestMethod]
+        public void Constructor_PhoneNull_ShouldThrow()
+        {
+            Assert.ThrowsException<ArgumentException>(() =>
+                new Phone("Molenda", null));
+        }
+
+        [TestMethod]
+        public void Constructor_PhoneEmpty_ShouldThrow()
+        {
+            Assert.ThrowsException<ArgumentException>(() =>
+                new Phone("Molenda", ""));
+        }
+
+        [TestMethod]
+        public void Constructor_PhoneTooShort_ShouldThrow()
+        {
+            Assert.ThrowsException<ArgumentException>(() =>
+                new Phone("Molenda", "123"));
+        }
+
+        [TestMethod]
+        public void Constructor_PhoneTooLong_ShouldThrow()
+        {
+            Assert.ThrowsException<ArgumentException>(() =>
+                new Phone("Molenda", "1234567890"));
+        }
+
+        [TestMethod]
+        public void Constructor_PhoneContainsLetters_ShouldThrow()
+        {
+            Assert.ThrowsException<ArgumentException>(() =>
+                new Phone("Molenda", "12345ABCD"));
+        }
+
+        #endregion
+
+
+        #region AddContact Tests
+
+        [TestMethod]
+        public void AddContact_NewContact_ShouldReturnTrue_AndIncreaseCount()
+        {
+            var phone = new Phone("Molenda", "123456789");
+
+            var result = phone.AddContact("John", "987654321");
+
+            Assert.IsTrue(result);
+            Assert.AreEqual(1, phone.Count);
+        }
+
+        [TestMethod]
+        public void AddContact_DuplicateContact_ShouldReturnFalse()
+        {
+            var phone = new Phone("Molenda", "123456789");
+
+            phone.AddContact("John", "987654321");
+            var result = phone.AddContact("John", "111111111");
+
+            Assert.IsFalse(result);
+            Assert.AreEqual(1, phone.Count);
+        }
+
+        [TestMethod]
+        public void AddContact_WhenPhoneBookFull_ShouldThrow()
+        {
+            var phone = new Phone("Molenda", "123456789");
+
+            for (int i = 0; i < phone.PhoneBookCapacity; i++)
             {
                 phone.AddContact($"Contact{i}", "111111111");
             }
 
-            // Act
-            phone.AddContact("Overflow", "222222222");
+            Assert.ThrowsException<InvalidOperationException>(() =>
+                phone.AddContact("Overflow", "222222222"));
         }
 
-        // Test calling an existing contact
+        #endregion
+
+
+        #region Call Tests
+
         [TestMethod]
-        public void Test_Call_ExistingContact()
+        public void Call_ExistingContact_ShouldReturnCorrectMessage()
         {
-            // Arrange
             var phone = new Phone("Molenda", "123456789");
             phone.AddContact("John", "987654321");
 
-            // Act
             var result = phone.Call("John");
 
-            // Assert
-            Assert.AreEqual("Calling 987654321 (John) ...", result); 
+            Assert.AreEqual("Calling 987654321 (John) ...", result);
         }
 
-        // Test calling a non-existing contact
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
-        public void Test_Call_NonExistingContact()
+        public void Call_NonExistingContact_ShouldThrow()
         {
-            // Arrange
             var phone = new Phone("Molenda", "123456789");
 
-            // Act: 
-            phone.Call("Nonexistent");
+            Assert.ThrowsException<InvalidOperationException>(() =>
+                phone.Call("Unknown"));
         }
+
+        #endregion
     }
 }
